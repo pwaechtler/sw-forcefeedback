@@ -1,0 +1,50 @@
+
+uu 14 : unsigned 14-bit
+ii 14 : signed 14-bit
+u7 00 : unsigned 7-bit, in first (LSB) byte.
+
+signed 14-bit limits:
+00 40 = 0x2000	-> 0010 0000 0000 0000
+		-> 1110 0000 0000 0000 = -8192
+7f 3f = 0x1fff	-> 0001 1111 1111 1111 = 8191
+
+attributes:
+
+duration				        f1 -- -0 -- uu 14	25 .. 5000 (50ms .. 10000ms)	
+direction				        f1 -- -2 -- u7 00	0 .. 127 (deg 0 .. ~359)
+period, x-offset:			    f1 -- -4 -- ii 14	-8192 .. +8191
+envelope, start amplitude:		f1 -- -5 -- u7 00	distance from middle 0 .. 127
+envelope, x1:				    f1 -- -6 -- uu 14	0 .. 1000
+period, amplitude:			    f1 -- -7 -- u7 00	0 .. 127
+envelope, x2:				    f1 -- -8 -- uu 14	0 .. 1000
+envelope, end amplitude:		f1 -- -9 -- u7 00	distance from middle 0 .. 127
+period, 1/Hz:				    f1 -- -a -- uu 14	0 .. 1000
+period, y-offset:			    f1 -- -b -- u7 00	0 .. 125
+
+envelope, (const force) y1:     f1 -- -4 -- u7 00	distance from middle 0 .. 127
+envelope, (const force) x1:		f1 -- -5 -- uu 14	0 .. 1000
+constant force constant:		f1 -- -6 -- u7 00	0 .. 127 (0=no force, 127=max)
+envelope, (const force) x2:		f1 -- -7 -- uu 14	0 .. 1000
+envelope, (const force) y2:	    f1 -- -8 -- u7 00	distance from middle 0 .. 127
+constant force direction:		f1 -- -9 -- u7 00	00/7d. 00=ccw, 7d=cw.
+
+ramp start				        f1 -- -7 -- u7 00	0 .. 127 (top .. bottom)
+ramp end				        f1 -- -b -- u7 00	0 .. 127 (top .. bottom)
+
+negative coefficient			f1 -- -3 -- 00 u7	0 .. 125 (-10000 .. +10000)
+positive saturation			    f1 -- -3 -- uu 14	0 .. 8000 (-10000 .. +10000)
+
+positive coefficient			f1 -- -6 -- 7d u7	0 .. 127 (-10000 .. +10000)
+negative saturation			    f1 -- -6 -- uu 14	0 .. 8000 (-10000 .. +10000)
+
+cpOffset				        f1 -- -a -- u7 00	0 .. 126 (-10000 .. +10000)
+
+NOTE: envelope x1 < x2, command for setting x2=x1 is sent when x1 goes over x2 and vice versa.
+NOTE: const force env x2 changes are not sent if x1 > x2. modifying const force env x1 changes also x2 to the same value as x1.
+NOTE: changing duration may also change envlope x-values.
+NOTE: constant force direction is sent when force direction changes, otherwise just constant is sent when force constant changes.
+NOTE: adjusting deadband for spring&damper changes attributes 2-6.
+NOTE: adjusting ramp start changes also end and vice versa.
+NOTE: coefficient changes MSB, LSB is always 0 for negative and 7d for positive coef.
+NOTE: changing positive coefs & neg sat modify the same attibutes, same for neg coef & pos sat.
+NOTE: changing direction may also change attributes 3 & 4 for ramp (and possibly others)

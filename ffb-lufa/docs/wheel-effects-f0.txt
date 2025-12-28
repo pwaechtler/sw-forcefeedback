@@ -1,0 +1,141 @@
+waveforms
+
+f0
+   00 01 0a 15 20	header
+   xx 			effect type (sine=2, square=3, triangle=4, sawtooth=5)
+   7f			always 7f
+   xx xx		duration
+   xx 		        direction (angle*128/360)
+   ??			precise direction indicator ? 7f=precise, 7d=not
+   00 40		periodic x-offset, default 00 40
+   7f			envelope y1, default 7f
+   00 00		envelope x1, default 00 00
+   7f			periodic amplitude
+   65 12		envelope x2
+   7f			envelope y2
+   74 03		periodic x-hz
+   3e			periodic y-offset
+   xx			checksum
+f7
+
+
+ramp
+
+f0
+   00 01 0a 15 20	header
+   05			effect type: ramp
+   7f			always 7f
+   xx xx 		duration
+   xx			ramp direction, increasing=0x40, decreasing=0x00 (in direction view      
+				0x40<180 deg, 0x00 >= 180).
+   7f			???
+   00 00		???
+   xx			envelope y1, 0x00=middle, 7f=top/bottom, default 7f.
+   xx xx		envelope x1, 00 00 = left, 6e 1e (3950) = right, default left
+   xx			ramp delta (7f = max diff, 00=same level, default 7f)
+   xx xx		envelope x2, 00 00 = left, 6e 1e = right, default right
+   xx			envelope y2, 0x00=middle, 7f=top/bottom, default 7f
+   6e 1e		???
+   xx			ramp midpoint y-offset 00..7f. 00=top, 7d=bottom
+   xx 			checksum
+f7
+
+NOTE:
+ramp delta = abs(end-start)
+ramp direction = (end < start) ? 0x40 : 0x00
+ramp midpoint = abs(start - (ramp delta/2))
+
+constant force
+
+f0
+   00 01 0a 15 20	header
+   06			effect type: constant force
+   7f			always 7f
+   xx xx		duration
+   00			direction, not used, always 00
+   7f			unknown/always 7f
+   xx			envelope y1 00-7f, default 7f
+   xx xx		envelope x1 (0x6e 0x1e = right, 0x00 0x00 = left. default left)
+   xx			force 00-7f, default 7f.
+   xx xx		envelope x2 (0x00 0x00 = left, 0x6e 0x1e = right. default right)
+   xx 			envelope y2 (0x00 = bottom, 0x7f=top. default top)
+   xx			force direction 00=ccw, 7d=cw  
+   xx			checksum
+f7
+
+friction
+
+f0
+   00 01 0a 15 20	header
+   0b			effect type: friction
+   7f			always 7f
+   xx xx		duration
+   00			direction, not used, always 00
+   7e			friction axis0 positive coef (0x00=-10000, 0x3f = 0, 0x7e=10000)
+   xx			checksum
+f7
+
+inertia
+
+f0
+   00 01 0a 15 20	header
+   0a			effect type: inertia
+   7f			always 7f
+   xx xx		duration
+   00			direction, not used, always 00
+
+   00			?? always 00			
+   7d			negative coef 0x7d=-10000, 0x3e=0, 0x00=+10000		
+   3e                   ?? always 3e
+   3f	        	?? always 3f
+   3e                   ?? always 3e
+   3f		        ?? always 3f
+   7d			?? always 7d
+   00			positive coef 0x7d=-10000, 0x3e=0, 0x00=+10000
+   xx			checksum
+f7
+
+
+damper
+
+f0
+   00 01 0a 15 20	header
+   09			effect type: damper
+   7f			always 7f
+   xx xx		duration
+   00			direction, not used, always 00
+
+   00			pos sat
+   7d			neg coef & pos sat & deadband
+   3e			deadband
+   3f			???
+   3e			deadband
+   3f			???
+   7d			neg sat
+   00			pos coef & neg sat & deadband
+   57
+f7
+
+NOTE: coefficients, deadband and saturation values affect multiple locations, formula not known.
+
+spring
+
+f0
+   00 01 0a 15 20 	header
+   08			effect type: spring
+   7f			always 7f
+   xx xx		duration
+   xx			direction, not used, always 00
+
+   xx			positive saturation 3e=1, 00=10000
+   xx			positive saturation 3e=1, 7d=10000
+   3e			
+   xx			positive saturation
+   3e
+   xx			negative saturation 3e=1, 2f=10000
+   xx			negative saturation 3e=1, 7d=10000 (0x3e+(0x7d-0x3e)*sat/10000)
+   xx			negative saturation 3e=1, 00=10000 (0x3e-sat/10000).
+   xx			checksum
+f7
+
+NOTE: saturation values are stored to multiple locations, might be mixed if both pos+neg are modified (not tested).

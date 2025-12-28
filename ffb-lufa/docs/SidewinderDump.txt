@@ -1,0 +1,95 @@
+Information for device SideWinder Force Feedback Wheel (USB) (VID=0x045E PID=0x0034): 
+
+Connection Information:
+------------------------------
+Connection status: Device connected
+Device actual bus speed: Full 
+Device is hub: No
+Device adress: 0x0003
+Current configuration value: 0x01
+Number of open pipes: 2
+
+Device Descriptor:
+------------------------------
+0x12	bLength
+0x01	bDescriptorType
+0x0100	bcdUSB
+0x00	bDeviceClass   
+0x00	bDeviceSubClass   
+0x00	bDeviceProtocol   
+0x08	bMaxPacketSize0   (8 Bytes)
+0x045E	idVendor
+0x0034	idProduct
+0x0101	bcdDevice
+0x01	iManufacturer   "Microsoft"
+0x02	iProduct   "SideWinder Force Feedback Wheel (USB)"
+0x00	iSerialNumber
+0x01	bNumConfigurations
+
+Configuration Descriptor:
+------------------------------
+0x09	bLength
+0x02	bDescriptorType
+0x0029	wTotalLength
+0x01	bNumInterfaces
+0x01	bConfigurationValue
+0x00	iConfiguration
+0xA0	bmAttributes   (Bus-powered Device, Remote-Wakeup)
+0x32	bMaxPower   (100 mA)
+
+Interface Descriptor:
+------------------------------
+0x09	bLength
+0x04	bDescriptorType
+0x00	bInterfaceNumber
+0x00	bAlternateSetting
+0x02	bNumEndPoints
+0x03	bInterfaceClass   (Human Interface Device Class)
+0x00	bInterfaceSubClass   
+0x00	bInterfaceProtocol   
+0x00	iInterface
+
+HID Descriptor:
+------------------------------
+0x09	bLength
+0x21	bDescriptorType
+0x0100	bcdHID
+0x00	bCountryCode
+0x01	bNumDescriptors
+0x22	bDescriptorType   (Report descriptor)
+0x0510	bDescriptorLength
+
+Endpoint Descriptor:
+------------------------------
+0x07	bLength
+0x05	bDescriptorType
+0x81	bEndpointAddress   (IN Endpoint)
+0x03	bmAttributes	(Transfer: Interrupt / Synch: None / Usage: Data)
+0x0040	wMaxPacketSize   (64 Bytes) 
+0x01	bInterval
+
+Endpoint Descriptor:
+------------------------------
+0x07	bLength
+0x05	bDescriptorType
+0x02	bEndpointAddress   (OUT Endpoint)
+0x03	bmAttributes	(Transfer: Interrupt / Synch: None / Usage: Data)
+0x0010	wMaxPacketSize   (16 Bytes) 
+0x04	bInterval
+
+String Descriptor Table
+--------------------------------
+Index  LANGID  String
+0x00   0x0000  0x0409 
+0x01   0x0409  "Microsoft"
+0x02   0x0409  "SideWinder Force Feedback Wheel (USB)"
+
+------------------------------
+
+Connection path for device: 
+Intel(R) 6 Series/C200 Series Chipset Family USB Enhanced Host Controller - 1C26
+Root Hub
+Generic USB Hub
+SideWinder Force Feedback Wheel (USB) (VID=0x045E PID=0x0034)
+
+Brought to you by TDD v1.82.0, Aug 20 2013, 17:17:20
