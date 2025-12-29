@@ -1,5 +1,5 @@
 #!/bin/sh
-NMTOOL=/Users/peewee/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-nm 
+NMTOOL=$HOME/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-nm 
 
 if [ "${1}not" = "not" ]
 then
